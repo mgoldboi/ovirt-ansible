@@ -4,9 +4,6 @@
   connection: local
   gather_facts: false
 
-  vars_files:
-    # Contains encrypted `engine_password` varibale using ansible-vault
-    - passwords.yml
 
   vars:
     engine_url: "{{ lookup('env','OVIRT_URL') }}"
