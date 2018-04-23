@@ -6,6 +6,9 @@
 
   vars:
     cluster_name: production
+    engine_url: "{{ lookup('env','OVIRT_URL') }}"
+    engine_user: "{{ lookup('env','OVIRT_USERNAME') }}"
+    engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
 
   roles:
     - ovirt-cluster-upgrade
