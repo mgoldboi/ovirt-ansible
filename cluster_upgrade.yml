@@ -1,0 +1,11 @@
+---
+- name: oVirt infra
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    cluster_name: production
+
+  roles:
+    - ovirt-cluster-upgrade
