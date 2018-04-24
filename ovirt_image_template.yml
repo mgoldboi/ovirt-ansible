@@ -9,7 +9,8 @@
     engine_url: "{{ lookup('env','OVIRT_URL') }}"
     engine_user: "{{ lookup('env','OVIRT_USERNAME') }}"
     engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
-    qcow_url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
+    ca_file: /root/pki-resource
+    qcow_url:  
     template_cluster: production
     template_name: centos7_template
     template_memory: 2GiB
