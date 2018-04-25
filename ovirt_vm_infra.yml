@@ -48,8 +48,8 @@
         vm_enforcing: true
         vm_rule: negative
         vms:
-          - postgresql-vm-0
-          - postgresql-vm-1
+          - cf-postgresql-vm-0
+          - cf-postgresql-vm-1
 
   roles:
     - ovirt-vm-infra
