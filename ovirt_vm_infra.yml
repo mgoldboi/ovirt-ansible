@@ -56,12 +56,15 @@
   
 
   tasks:
+    - name: Obtain SSO token with using username/password credentials
+      ovirt_auth:
+        url: "{{ lookup('env','OVIRT_URL') }}"
+        username: "{{ lookup('env','OVIRT_USERNAME') }}"
+        password: "{{ lookup('env','OVIRT_PASSWORD') }}"
+   
     - name: Fetch VM IPs
       ovirt_vms_facts:
-        auth:
-          url: "{{ lookup('env','OVIRT_URL') }}"
-          username: "{{ lookup('env','OVIRT_USERNAME') }}"
-          password: "{{ lookup('env','OVIRT_PASSWORD') }}"
+        auth: "{{ ovirt_auth }}"
         pattern: "name={{ item.name }}"
         fetch_nested: true
         nested_attributes: ips
