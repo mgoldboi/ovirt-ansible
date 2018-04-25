@@ -1,25 +1,25 @@
 ---
-#- name: Download the qcow image
-#  get_url:
-#    url: "{{ qcow_url }}"
-#    dest: "{{ image_path }}"
-#  register: downloaded
-#  tags:
-#    - ovirt-template-image
-#
-#- name: Check file type
-#  command: "/usr/bin/file {{ image_path | quote }}"
-#  changed_when: false
-#  register: filetype
-#  tags:
-#    - ovirt-template-image
-#
-#- name: Fail if image is not qcow
-#  fail:
-#    msg: "The downloaded file is not valid QCOW file."
-#  when: '"QCOW" not in filetype.stdout'
-#  tags:
-#    - ovirt-template-image
+- name: Download the qcow image
+  get_url:
+    url: "{{ qcow_url }}"
+    dest: "{{ image_path }}"
+  register: downloaded
+  tags:
+    - ovirt-template-image
+
+- name: Check file type
+  command: "/usr/bin/file {{ image_path | quote }}"
+  changed_when: false
+  register: filetype
+  tags:
+    - ovirt-template-image
+
+- name: Fail if image is not qcow
+  fail:
+    msg: "The downloaded file is not valid QCOW file."
+  when: '"QCOW" not in filetype.stdout'
+  tags:
+    - ovirt-template-image
 
 - block:
   - name: Login to oVirt
