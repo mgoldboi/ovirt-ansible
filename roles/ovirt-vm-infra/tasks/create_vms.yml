@@ -18,6 +18,8 @@
     cpu_sockets: "{{ current_vm.profile.sockets | default(omit) }}"
     high_availability: "{{ current_vm.profile.high_availability | default(omit) }}"
     storage_domain: "{{ current_vm.profile.storage_domain | default(omit) }}"
+    cloud_init:
+      root_password: 'redhat'
     timeout: "{{ vm_infra_create_single_timeout }}"
   changed_when: false
   async: "{{ vm_infra_create_single_timeout }}"
