@@ -32,13 +32,13 @@
       root_password: 'redhat'
 
     vms:
-      - name: postgresql-vm-0
+      - name: cf-postgresql-vm-0
         tag: postgresql_vm
         profile: "{{ db_vm }}"
-      - name: postgresql-vm-1
+      - name: cf-postgresql-vm-1
         tag: postgresql_vm
         profile: "{{ db_vm }}"
-      - name: apache-vm
+      - name: cf-apache-vm
         tag: httpd_vm
         profile: "{{ httpd_vm }}"
 

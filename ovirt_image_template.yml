@@ -11,12 +11,12 @@
     engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
     ca_file: /root/pki-resource
     qcow_url:  
-    template_cluster: production
+    template_cluster: Default
     template_name: centos7_template
-    template_memory: 2GiB
+    template_memory: 4GiB
     template_cpu: 2
     template_disk_size: 10GiB
-    template_disk_storage: nfs
+    template_disk_storage: nfs_data
 
   roles:
     - ovirt-image-template
