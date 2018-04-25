@@ -101,6 +101,17 @@
     vars:
       query: "reported_devices[*].ips[*].address"
 
+  - name: Add vms to inventory groups
+    add_host:
+      hostname: "{{ item.name }}"
+      ansible_host: "{{ item | ovirtvmipv4 }}"
+      ansible_user: root
+      ansible_password: redhat
+      ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    with_items:
+      - "{{ vms }}"
+    until: "ovirt_vms | first | json_query(query) | length > 0"
+
   always:
     - name: Logout from oVirt
       ovirt_auth:
