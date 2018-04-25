@@ -10,7 +10,7 @@
     engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
     
     deployment_cluster: Default
-    depployment_storage_domain: NFS
+    deployment_storage_domain: NFS
     machine_template: rhel75_60G
 
     httpd_vm:
