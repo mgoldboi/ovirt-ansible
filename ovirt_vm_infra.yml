@@ -59,9 +59,12 @@
     - name: Fetch VM IPs
       ovirt_vms_facts:
         auth:
-          url: "{{ engine_url | default(omit) }}"
-          username: "{{ engine_user | default(omit) }}"
-          password: "{{ engine_password | default(omit) }}"
+          engine_url: "{{ lookup('env','OVIRT_URL') }}"
+          engine_user: "{{ lookup('env','OVIRT_USERNAME') }}"
+          engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
+          # url: "{{ engine_url | default(omit) }}"
+          # username: "{{ engine_user | default(omit) }}"
+          # password: "{{ engine_password | default(omit) }}"
         pattern: "name={{ item.name }}"
         fetch_nested: true
         nested_attributes: ips
