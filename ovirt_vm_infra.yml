@@ -5,9 +5,10 @@
   gather_facts: false
 
   vars:
-    engine_url: https://ovirt-engine.example.com/ovirt-engine/api
-    engine_user: admin@internal
-    engine_cafile: /etc/pki/ovirt-engine/ca.pem
+    engine_url: "{{ lookup('env','OVIRT_URL') }}"
+    engine_user: "{{ lookup('env','OVIRT_USERNAME') }}"
+    engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
+
     deployment_cluster: Default
     depployment_storage_domain: NFS
     machine_template: rhel75_60G
