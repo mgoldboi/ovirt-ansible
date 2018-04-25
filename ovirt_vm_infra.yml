@@ -62,8 +62,6 @@
           url: "{{ engine_url | default(omit) }}"
           username: "{{ engine_user | default(omit) }}"
           password: "{{ engine_password | default(omit) }}"
-          ca_file: "{{ engine_cafile | default(omit) }}"
-          insecure: "{{ engine_insecure | default(true) }}"
         pattern: "name={{ item.name }}"
         fetch_nested: true
         nested_attributes: ips
