@@ -4,17 +4,15 @@
   connection: local
   gather_facts: false
 
-  vars_files:
-    # Contains encrypted `engine_password` varibale using ansible-vault
-    - passwords.yml
-
   vars:
     engine_url: https://ovirt-engine.example.com/ovirt-engine/api
     engine_user: admin@internal
     engine_cafile: /etc/pki/ovirt-engine/ca.pem
+    deployment_cluster: Default
+    depployment_storage_domain: NFS
 
     httpd_vm:
-      cluster: production
+      cluster: "{{ deployment_cluster }}"
       domain: example.com
       template: rhel7
       memory: 2GiB
@@ -23,11 +21,11 @@
       disks:
         - size: 10GiB
           name: data
-          storage_domain: mynfsstorage
+          storage_domain: "{{ depployment_storage_domain }}"
           interface: virtio
 
     db_vm:
-      cluster: production
+      cluster: "{{ deployment_cluster }}"
       domain: example.com
       template: rhel7
       memory: 4GiB
@@ -36,7 +34,7 @@
       disks:
         - size: 50GiB
           name: data
-          storage_domain: mynfsstorage
+          storage_domain: "{{ depployment_storage_domain }}"
           interface: virtio
 
     vms:
