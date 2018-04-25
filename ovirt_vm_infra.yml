@@ -8,7 +8,7 @@
     engine_url: "{{ lookup('env','OVIRT_URL') }}"
     engine_user: "{{ lookup('env','OVIRT_USERNAME') }}"
     engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
-
+    
     deployment_cluster: Default
     depployment_storage_domain: NFS
     machine_template: rhel75_60G
@@ -20,6 +20,7 @@
       memory: 2GiB
       cores: 2
       ssh_key: ssh-rsa AAA...LGx user@fqdn
+      root_password: 'redhat'
 
     db_vm:
       cluster: "{{ deployment_cluster }}"
@@ -28,6 +29,7 @@
       memory: 4GiB
       cores: 1
       ssh_key: ssh-rsa AAA...LGx user@fqdn
+      root_password: 'redhat'
 
     vms:
       - name: postgresql-vm-0
@@ -51,3 +53,64 @@
 
   roles:
     - ovirt-vm-infra
+  
+
+  tasks:
+    - name: Fetch VM IPs
+      ovirt_vms_facts:
+        auth:
+          url: "{{ engine_url | default(omit) }}"
+          username: "{{ engine_user | default(omit) }}"
+          password: "{{ engine_password | default(omit) }}"
+          ca_file: "{{ engine_cafile | default(omit) }}"
+          insecure: "{{ engine_insecure | default(true) }}"
+        pattern: "name={{ item.name }}"
+        fetch_nested: true
+        nested_attributes: ips
+      with_items: "{{ vms }}"
+      register: vms_ips
+
+    - debug:
+        msg: "{{ vms_ips }}"
+
+    - name: Create apache_vms groups
+      add_host:
+        groups: apache_vms
+        hostname: "{{ item.ansible_facts.ovirt_vms | ovirtvmipv4 }}"
+        ansible_host: "{{ item.ansible_facts.ovirt_vms | ovirtvmipv4 }}"
+        ansible_user: root
+        ansible_password: redhat
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      with_items: "{{ vms_ips.results }}"
+
+- name: Setup apache
+  hosts: apache_vms
+
+  vars:
+    apache_listen_port: 8080
+    apache_vhosts:
+      - servername: "example.com"
+        documentroot: "/var/www/html"
+
+  pre_tasks:
+    - name: xyz
+      package:
+        name: libselinux-python
+        state: present
+    - name: Add repository
+      yum_repository:
+        name: epel
+        description: EPEL YUM repo
+        baseurl: http://download-node-02.eng.bos.redhat.com/released/RHEL-7/7.5/Server/x86_64/os/
+        gpgcheck: false
+
+
+  tasks:
+    - name: File
+      copy:
+        dest: "/var/www/html/index.html"
+        content: |
+          Hello from "{{ inventory_hostname }}!"
+
+  roles:
+   - geerlingguy.apache
