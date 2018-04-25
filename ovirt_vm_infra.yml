@@ -10,11 +10,12 @@
     engine_cafile: /etc/pki/ovirt-engine/ca.pem
     deployment_cluster: Default
     depployment_storage_domain: NFS
+    machine_template: rhel75_60G
 
     httpd_vm:
       cluster: "{{ deployment_cluster }}"
       domain: example.com
-      template: rhel7
+      template: "{{ machine_template }}"
       memory: 2GiB
       cores: 2
       ssh_key: ssh-rsa AAA...LGx user@fqdn
@@ -27,7 +28,7 @@
     db_vm:
       cluster: "{{ deployment_cluster }}"
       domain: example.com
-      template: rhel7
+      template: "{{ machine_template }}"
       memory: 4GiB
       cores: 1
       ssh_key: ssh-rsa AAA...LGx user@fqdn
