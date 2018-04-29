@@ -5,7 +5,7 @@
   gather_facts: false
 
   vars:
-    cluster_name: Default231321
+    cluster_name: Default
     engine_url: "{{ lookup('env','OVIRT_URL') }}"
     engine_user: "{{ lookup('env','OVIRT_USERNAME') }}"
     engine_password: "{{ lookup('env','OVIRT_PASSWORD') }}"
